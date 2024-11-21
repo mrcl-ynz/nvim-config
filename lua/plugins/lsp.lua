@@ -22,11 +22,15 @@ return {
         end)
     end,
     config = function()
+        local cmp_ok, cmp = pcall(require, "cmp_nvim_lsp");
+
         require("mason-lspconfig").setup({
             ensure_installed = { "lua_ls" },
             handlers = {
                 function(server_name)
-                    require("lspconfig")[server_name].setup({})
+                    require("lspconfig")[server_name].setup({
+                        capabilities = cmp_ok and cmp.default_capabilities() or {},
+                    })
                 end,
             },
         })
